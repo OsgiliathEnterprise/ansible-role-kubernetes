@@ -9,9 +9,9 @@ kubernetes_packages:
   - name: kubernetes-cni
     state: present
 
-kubernetes_version: '1.25'
+kubernetes_version: '1.27'
 kubernetes_version_rhel_package: '1.25.1'
-kubernetes_version_fedora_package: "{{ kubernetes_version }}.3"
+kubernetes_version_fedora_package: '1.27.1'
 kubernetes_role: control_plane
 
 # This is deprecated. Please use kubernetes_config_kubelet_configuration instead.
