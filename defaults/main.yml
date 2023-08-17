@@ -11,7 +11,7 @@ kubernetes_packages:
 
 kubernetes_version: '1.27'
 kubernetes_version_rhel_package: '1.25.1'
-kubernetes_version_fedora_package: "{{ kubernetes_version }}.2"
+kubernetes_version_fedora_package: "{{ kubernetes_version }}.3"
 kubernetes_role: control_plane
 
 # This is deprecated. Please use kubernetes_config_kubelet_configuration instead.
@@ -70,7 +70,7 @@ kubernetes_yum_repo_gpg_check: true
 kubernetes_flannel_manifest_file: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
 # Calico config file.
-calico_version: v3.26.0
+calico_version: v3.26.1
 kubernetes_calico_manifest_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml"
 kubernetes_calico_configuration_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/custom-resources.yaml"
 kubernetes_calicoctl_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/calicoctl.yaml"

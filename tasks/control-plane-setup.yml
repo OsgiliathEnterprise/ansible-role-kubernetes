@@ -50,43 +50,48 @@
   register: flannel_result
   changed_when: "'created' in flannel_result.stdout"
   when: kubernetes_pod_network.cni == 'flannel'
-  until: flannel_result.rc == 0
-  retries: 5
-  delay: 10
+  until: flannel_result is not failed
+  retries: 12
+  delay: 5
 
 - name: Configure Calico networking.
-  command: "kubectl apply --server-side=true --force-conflicts -f {{ kubernetes_calico_manifest_file }}"
-  register: calico_result
-  changed_when: "'created' in calico_result.stdout"
+  kubernetes.core.k8s:
+    state: present
+    apply: True
+    src: "{{ kubernetes_calico_manifest_file }}"
+    server_side_apply:
+      force_conflicts: True
+      field_manager: ansible
   when: kubernetes_pod_network.cni == 'calico'
-  retries: 5
-  delay: 10
 
 - name: Create Calico configuration.
-  command: "kubectl create -f {{ kubernetes_calico_configuration_file }}"
-  register: calico_result
-  changed_when: "'created' in calico_result.stdout"
+  kubernetes.core.k8s:
+    state: present
+    apply: True
+    src: "{{ kubernetes_calico_configuration_file }}"
+    server_side_apply:
+      force_conflicts: True
+      field_manager: ansible
   when: kubernetes_pod_network.cni == 'calico'
-  failed_when: False
-  retries: 5
-  delay: 10
 
 - name: Install Calico ctl.
-  command: "kubectl create -f {{ kubernetes_calicoctl_file }}"
-  register: calico_result
-  changed_when: "'created' in calico_result.stdout"
+  kubernetes.core.k8s:
+    state: present
+    apply: True
+    src: "{{ kubernetes_calicoctl_file }}"
+    server_side_apply:
+      force_conflicts: True
+      field_manager: ansible
   when: kubernetes_pod_network.cni == 'calico'
-  failed_when: False
-  retries: 5
-  delay: 10
 
 - name: Get Kubernetes version for Weave installation.
   shell: kubectl version | base64 | tr -d '\n'
   changed_when: false
   register: kubectl_version
   when: kubernetes_pod_network.cni == 'weave'
-  retries: 5
-  delay: 10
+  until: kubectl_version is not failed
+  retries: 12
+  delay: 5
 
 - name: Configure Weave networking.
   command: "{{ item }}"
