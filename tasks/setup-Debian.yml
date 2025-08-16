@@ -4,20 +4,24 @@
     name:
       - apt-transport-https
       - ca-certificates
-    state: present
-
-- name: Add Kubernetes apt key.
-  apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      - python3-debian
     state: present
   register: add_repository_key
   ignore_errors: "{{ kubernetes_apt_ignore_key_error }}"
 
 - name: Add Kubernetes repository.
-  apt_repository:
-    repo: "{{ kubernetes_apt_repository }}"
-    state: present
+  deb822_repository:
+    name: kubernetes
+    types: deb
+    uris: "{{ kubernetes_apt_repository }}"
+    suites: /
+    signed_by: "{{ kubernetes_apt_repository }}/Release.key"
+  register: kubernetes_repository
+
+- name: Update Apt cache.
+  apt:
     update_cache: true
+  when: kubernetes_repository.changed
 
 - name: Add Kubernetes apt preferences file to pin a version.
   template:

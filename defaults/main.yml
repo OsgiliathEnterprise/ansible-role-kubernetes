@@ -9,9 +9,9 @@ kubernetes_packages:
   - name: kubernetes-cni
     state: present
 
-kubernetes_version: '1.27'
-kubernetes_version_rhel_package: '1.25.1'
-kubernetes_version_fedora_package: "{{ kubernetes_version }}.3"
+kubernetes_version: '1.33'
+kubernetes_version_rhel_package: "{{ kubernetes_version }}.0"
+kubernetes_version_fedora_package: "{{ kubernetes_version }}.3-1.fc42"
 kubernetes_role: control_plane
 
 # This is deprecated. Please use kubernetes_config_kubelet_configuration instead.
@@ -29,6 +29,11 @@ kubernetes_pod_network:
   # cidr: '192.168.0.0/16'
 
 kubernetes_kubeadm_kubelet_config_file_path: '/etc/kubernetes/kubeadm-kubelet-config.yaml'
+
+kubernetes_config_kubeadm_apiversion: v1beta4
+kubenetes_config_kubelet_apiversion: v1beta1
+kubernetes_config_kubeproxy_apiversion: v1alpha1
+
 kubernetes_config_kubelet_configuration:
   cgroupDriver: "systemd"
 
@@ -52,17 +57,11 @@ kubernetes_apiserver_advertise_address: ''
 kubernetes_version_kubeadm: 'stable-{{ kubernetes_version }}'
 kubernetes_ignore_preflight_errors: 'all'
 
-kubernetes_apt_release_channel: main
-# Note that xenial repo is used for all Debian derivatives at this time.
-kubernetes_apt_repository: "deb http://apt.kubernetes.io/ kubernetes-xenial {{ kubernetes_apt_release_channel }}"
-kubernetes_apt_ignore_key_error: false
+kubernetes_apt_release_channel: "stable"
+kubernetes_apt_repository: "https://pkgs.k8s.io/core:/{{ kubernetes_apt_release_channel }}:/v{{ kubernetes_version }}/deb/"
 
-kubernetes_yum_arch: '$basearch'
-kubernetes_yum_base_url: "https://packages.cloud.google.com/yum/repos/kubernetes-el7-{{ kubernetes_yum_arch }}"
-kubernetes_yum_gpg_key:
-  - https://packages.cloud.google.com/yum/doc/yum-key.gpg
-  - https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-
+kubernetes_yum_base_url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/rpm/"
+kubernetes_yum_gpg_key: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/rpm/repodata/repomd.xml.key"
 kubernetes_yum_gpg_check: true
 kubernetes_yum_repo_gpg_check: true
 
@@ -70,7 +69,7 @@ kubernetes_yum_repo_gpg_check: true
 kubernetes_flannel_manifest_file: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
 # Calico config file.
-calico_version: v3.28.1
+calico_version: v3.30.2
 kubernetes_calico_manifest_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml"
 kubernetes_calico_configuration_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/custom-resources.yaml"
 kubernetes_calicoctl_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/calicoctl.yaml"

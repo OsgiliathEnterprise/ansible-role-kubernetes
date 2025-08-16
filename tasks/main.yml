@@ -18,6 +18,7 @@
 
 - name: Ensure dependencies are installed.
   package: name=curl state=present
+  failed_when: False
 
 - name: Install Kubernetes packages.
   package:
