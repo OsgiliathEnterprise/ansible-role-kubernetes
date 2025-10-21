@@ -11,7 +11,7 @@ kubernetes_packages:
 
 kubernetes_version: '1.33'
 kubernetes_version_rhel_package: "{{ kubernetes_version }}.0"
-kubernetes_version_fedora_package: "{{ kubernetes_version }}.3-1.fc42"
+kubernetes_version_fedora_package: "{{ kubernetes_version }}.5-150500.1.1"
 kubernetes_role: control_plane
 
 # This is deprecated. Please use kubernetes_config_kubelet_configuration instead.
@@ -35,7 +35,7 @@ kubenetes_config_kubelet_apiversion: v1beta1
 kubernetes_config_kubeproxy_apiversion: v1alpha1
 
 kubernetes_config_kubelet_configuration:
-  cgroupDriver: "systemd"
+ cgroupDriver: "systemd" # osgiliath change: does not work with latest kubelet api version
 
 kubernetes_config_init_configuration:
   localAPIEndpoint:
@@ -69,7 +69,8 @@ kubernetes_yum_repo_gpg_check: true
 kubernetes_flannel_manifest_file: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
 # Calico config file.
-calico_version: v3.30.2
+calico_version: v3.30.4
+kubernetes_calico_crds_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/operator-crds.yaml"
 kubernetes_calico_manifest_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml"
 kubernetes_calico_configuration_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/custom-resources.yaml"
 kubernetes_calicoctl_file: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/calicoctl.yaml"
