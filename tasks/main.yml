@@ -2,16 +2,16 @@
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
   when:
-  - ansible_distribution != 'Fedora'
+   - ansible_distribution != 'Fedora'
 
 - name: Include Distribution-specific variables.
   include_vars: "{{ ansible_distribution }}.yml"
   when:
-  - ansible_distribution == 'Fedora'
+   - ansible_distribution == 'Fedora'
 
 - include_tasks: setup-RedHat.yml
   when:
-  - ansible_os_family == 'RedHat'
+   - ansible_os_family == 'RedHat'
 
 - include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
@@ -75,7 +75,7 @@
     name: "{{ item }}"
     state: restarted
   with_items:
-    - containerd
-    - kubelet
+   - containerd
+   - kubelet
   when: kubernetes_role in ['control_plane', 'node']
   become: true
