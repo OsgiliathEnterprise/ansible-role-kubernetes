@@ -1,20 +1,20 @@
 ---
 - name: Include OS-specific variables.
-  include_vars: "{{ ansible_os_family }}.yml"
+  include_vars: "{{ ansible_facts.os_family }}.yml"
   when:
-   - ansible_distribution != 'Fedora'
+   - ansible_facts.distribution != 'Fedora'
 
 - name: Include Distribution-specific variables.
-  include_vars: "{{ ansible_distribution }}.yml"
+  include_vars: "{{ ansible_facts.distribution }}.yml"
   when:
-   - ansible_distribution == 'Fedora'
+   - ansible_facts.distribution == 'Fedora'
 
 - include_tasks: setup-RedHat.yml
   when:
-   - ansible_os_family == 'RedHat'
+   - ansible_facts.os_family == 'RedHat'
 
 - include_tasks: setup-Debian.yml
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts.os_family == 'Debian'
 
 - name: Ensure dependencies are installed.
   ansible.builtin.package: name=curl state=present
