@@ -11,7 +11,7 @@ kubernetes_packages:
 
 kubernetes_version: '1.35'
 kubernetes_version_rhel_package: "{{ kubernetes_version }}.0"
-kubernetes_version_fedora_package: "{{ kubernetes_version }}.4-150500.1.1"
+kubernetes_version_fedora_package: "{{ kubernetes_version }}.6-150500.1.1"
 kubernetes_role: control_plane
 
 # This is deprecated. Please use kubernetes_config_kubelet_configuration instead.
