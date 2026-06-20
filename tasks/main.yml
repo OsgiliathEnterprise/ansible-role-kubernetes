@@ -17,15 +17,16 @@
   when: ansible_facts.os_family == 'Debian'
 
 - name: Ensure dependencies are installed.
-  ansible.builtin.package: name=curl state=present
+  ansible.builtin.package:
+    name: curl
+    state: present
   failed_when: false
 
 - name: Install Kubernetes packages.
   ansible.builtin.package:
    name: "{{ item.name | default(item) }}"
    state: "{{ item.state | default('present') }}"
-  retries: 5
-  delay: 10
+  become: true
   notify: restart_kubelet
   with_items: "{{ kubernetes_packages }}"
 
@@ -39,6 +40,7 @@
    name: kubelet
    state: started
    enabled: true
+  become: true
 
 - name: Check if Kubernetes has already been initialized.
   stat:
