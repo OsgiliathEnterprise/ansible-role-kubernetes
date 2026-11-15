@@ -7,6 +7,8 @@
       - python3-debian
       - cri-tools
     state: present
+  register: add_repository_key
+  ignore_errors: "{{ kubernetes_apt_ignore_key_error }}"
 
 - name: Add Kubernetes repository.
   deb822_repository:
