@@ -5,6 +5,7 @@
       - apt-transport-https
       - ca-certificates
       - python3-debian
+      - cri-tools
     state: present
 
 - name: Add Kubernetes repository.
