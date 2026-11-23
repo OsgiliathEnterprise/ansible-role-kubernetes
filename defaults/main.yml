@@ -9,9 +9,12 @@ kubernetes_packages:
   - name: kubernetes-cni
     state: present
 
-kubernetes_version: '1.36'
-kubernetes_fedora_qualifier: '-150500.2.1'
+kubernetes_version: '1.37'
 kubernetes_version_rhel_package: "{{ kubernetes_version }}.0"
+kubernetes_fedora_qualifier: '-150500.2.1'
+
+kubernetes_cni_version: '1.8'
+kubernetes_cni_version_fedora_package: "{{ kubernetes_cni_version }}.0{{ kubernetes_fedora_qualifier }}"
 kubernetes_version_fedora_package: "{{ kubernetes_version }}.2{{ kubernetes_fedora_qualifier }}"
 kubernetes_kube_port: 6443
 
