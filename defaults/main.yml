@@ -10,7 +10,7 @@ kubernetes_packages:
     state: present
 
 kubernetes_version: '1.37'
-kubernetes_version_rhel_package: '1.37'
+kubernetes_version_rhel_package: "{{ kubernetes_version }}.0"
 kubernetes_fedora_qualifier: '-150500.2.1'
 
 kubernetes_cni_version: '1.8'
